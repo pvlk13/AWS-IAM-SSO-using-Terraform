@@ -2,6 +2,49 @@
 
 ## Overview
 This demo demonstrates how to manage AWS IAM users, groups, and group memberships using Terraform and a CSV file as the data source.
+AWS SSO and Terraform Implementation Guide
+1. User Creation in Identity Store
+
+• Process: Users are defined in Terraform using the `aws_identitystore_user` resource.
+
+• Naming Convention: Implemented logic to generate usernames like `a.bernard` from first and last name inputs.
+
+• Attributes: Configured `display_name`, `user_name`, and contact information (email/phone).
+
+2. Group Management
+
+• Creation: Used `aws_identitystore_group` to create logical collections of users (e.g., "DepartmentAccess").
+
+• Membership: Associated users to groups using `aws_identitystore_group_membership` to simplify permission management.
+
+3. Permission Sets (SSO Policies)
+
+• Definition: Created `aws_ssoadmin_permission_set` which acts as a template for permissions within the SSO instance.
+
+• Policy Attachment: Linked AWS Managed Policies (like `AdministratorAccess` or `ReadOnlyAccess`) to these sets using `aws_ssoadmin_managed_policy_attachment`.
+
+• Session Duration: Configured the length of time a user remains logged in.
+
+4. Account Assignment
+
+• The Bridge: Connected the User/Group to a specific AWS Account ID using `aws_ssoadmin_account_assignment`.
+
+• Targeting: Specified the target account, the principal (User or Group), and the Permission Set to grant access.
+
+5. Authentication & Access Portal
+
+• Portal URL: Users access resources via a unique Start URL (e.g., `https://d-9066016bbd.awsapps.com/start`).
+
+• MFA: Enabled Multi-Factor Authentication requirements for first-time login security.
+
+• Identity vs. IAM: Established that SSO users are federated and do not use the standard IAM login page.
+
+6. Troubleshooting & Validation
+
+• Verification: Confirmed access by launching resources (EC2) and inspecting IAM policies from the SSO-federated role.
+
+• Common Fixes: Resolved "Something doesn't compute" errors by using fresh Incognito sessions and ensuring correct portal URLs.
+
 
 ## Quick Start 
 ### 1. Creation of Backend Bucket for storing the terraform lock file
@@ -291,4 +334,5 @@ output "sso_user_names" {
   
 }   
 ```
+
 
