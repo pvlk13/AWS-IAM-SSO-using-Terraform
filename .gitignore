@@ -1,0 +1,15 @@
+# Ignore the Terraform directory (contains providers and modules)
+.terraform/
+
+# Ignore installer packages
+*.pkg
+
+# Ignore state files (optional but highly recommended for security/collaboration)
+*.tfstate
+*.tfstate.*
+
+# Binary installers
+*.pkg
+*.exe
+*.msi
+terraform.tfstate*
