@@ -13,6 +13,7 @@ terraform {
         region = "us-east-1"
     }
 }
+```
 
 main.tf 
 
@@ -22,15 +23,18 @@ locals {
     users = csvdecode(file("users.csv"))
 }
 
+
 # Get AWS Account ID
 data "aws_caller_identity" "current" {}
 
+```
 providers.tf
 
 ```hcl
 provider "aws" {
   region = "us-east-1" # You can change this to your preferred region
 }
+```
 
 iam.tf
 
@@ -88,4 +92,4 @@ resource "aws_iam_account_alias" "alias" {
   account_alias = "my-company-production-iam" # Give your login URL a clean name
 }
 
-
+```
